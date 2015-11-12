@@ -9,44 +9,44 @@ function scraping_miamarias() {
 
     // get Mon-Fri + soup + sallad
     $countDays = 0;
+
     foreach($html->find('div[class="et_slidecontent"]') as $daily) {
 
         // if the days have reached 6, it means we made it to the soup and sallad
         if ($countDays < 5) {
-			// get day
-			$item['day'] = trim($daily->find('strong', 0)->plaintext);
-			// get menu
-			$item['fish'] = trim($daily->find('table', 0)->find('td', 0)->plaintext);
-			$item['fishPrice'] = trim($daily->find('table', 0)->find('td', 1)->plaintext);
-			$item['fishDish'] = trim($daily->find('table', 0)->find('td', 2)->plaintext);
-			$item['meat'] = trim($daily->find('table', 0)->find('td', 4)->plaintext);
-			$item['meatPrice'] = trim($daily->find('table', 0)->find('td', 5)->plaintext);
-			$item['meatDish'] = trim($daily->find('table', 0)->find('td', 6)->plaintext);
-			$item['veg'] = trim($daily->find('table', 0)->find('td', 8)->plaintext);
-			$item['vegPrice'] = trim($daily->find('table', 0)->find('td', 9)->plaintext);
-			$item['vegDish'] = trim($daily->find('table', 0)->find('td', 10)->plaintext);
+    			// get day
+    			$item['day'] = trim($daily->find('strong', 0)->plaintext);
+    			// get menu
+    			$item['fish'] = trim($daily->find('table', 0)->find('td', 0)->plaintext);
+    			$item['fishPrice'] = trim($daily->find('table', 0)->find('td', 1)->plaintext);
+    			$item['fishDish'] = trim($daily->find('table', 0)->find('td', 2)->plaintext);
+    			$item['meat'] = trim($daily->find('table', 0)->find('td', 4)->plaintext);
+    			$item['meatPrice'] = trim($daily->find('table', 0)->find('td', 5)->plaintext);
+    			$item['meatDish'] = trim($daily->find('table', 0)->find('td', 6)->plaintext);
+    			$item['veg'] = trim($daily->find('table', 0)->find('td', 8)->plaintext);
+    			$item['vegPrice'] = trim($daily->find('table', 0)->find('td', 9)->plaintext);
+    			$item['vegDish'] = trim($daily->find('table', 0)->find('td', 10)->plaintext);
 
-			$ret[] = $item;
-		} 
-		
+    			$ret[] = $item;
+    		}
+
         // if the days have reached 6, it means we made it to the soup and sallad
         if ($countDays == 5) {
-			// get menu
-			$item['soup'] = trim($daily->find('strong', 0)->plaintext);
-			$item['soupDish'] = trim($daily->find('table', 0)->find('td', 0)->plaintext);
-			$item['soupPrice'] = trim($daily->find('table', 0)->find('td', 1)->plaintext);
-			$item['sallad'] = trim($daily->find('strong', 2)->plaintext);
-			$item['salladDish'] = trim($daily->find('table', 1)->find('td', 0)->plaintext);
-			$item['salladPrice'] = trim($daily->find('table', 1)->find('td', 1)->plaintext);
+    			// get menu
+    			$item['soup'] = trim($daily->find('strong', 0)->plaintext);
+    			$item['soupDish'] = trim($daily->find('table', 0)->find('td', 0)->plaintext);
+    			$item['soupPrice'] = trim($daily->find('table', 0)->find('td', 1)->plaintext);
+    			$item['sallad'] = trim($daily->find('strong', 2)->plaintext);
+    			$item['salladDish'] = trim($daily->find('table', 1)->find('td', 0)->plaintext);
+    			$item['salladPrice'] = trim($daily->find('table', 1)->find('td', 1)->plaintext);
 
-			$ret[] = $item;
-		}
-        
+    			$ret[] = $item;
+    		}
+
         // increase the counter
         $countDays++;
-        
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -56,7 +56,7 @@ function scraping_miamarias() {
 
 function printOut_miamarias($weekday = -1, $cli = true) {
 	$ret = scraping_miamarias();
-	
+
 	// show results on cli
 	$countDays = 0;
 	if ($cli) {
@@ -134,7 +134,7 @@ function scraping_meck() {
     // get Mon-Fri + soup + sallad
     $countDays = 0;
     foreach($html->find('div[class="post-content"]') as $daily) {
-		
+
         // if the days have reached 6, it means we made it to the soup and sallad
         if ($countDays < 5) {
 			// get day
@@ -143,19 +143,19 @@ function scraping_meck() {
 			$item['menu'] = trim($daily->find('p', 0)->plaintext);
 
 			$ret[] = $item;
-		} 
-		
+		}
+
         // if the days have reached 6, it means we made it to the soup and sallad
         if ($countDays == 5) {
 			// get menu
 			// nothing to do in this case
 		}
-        
+
         // increase the counter
         $countDays++;
-        
+
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -165,7 +165,7 @@ function scraping_meck() {
 
 function printOut_meck($weekday = -1, $cli = true) {
 	$ret = scraping_meck();
-	
+
 	// show results on cli
 	$countDays = 0;
 	if ($cli) {
@@ -220,18 +220,18 @@ function scraping_orkanen() {
 	// get prices
     $item['times'] = $html->find('div[id="orkanen"]',0)->find('div[class="col-md-8"]',0)->find('h2', 1)->plaintext;
     $item['prices'] = $html->find('div[id="orkanen"]',0)->find('div[class="col-md-8"]',0)->find('p', 0)->plaintext;
-    
+
     // sallad
     $item['soupAndSallad'] = $html->find('div[id="orkanen"]',0)->find('div[class="col-md-8"]',0)->find('p', 1)->plaintext;
 	$ret[] = $item;
-	
-    // get Mon-Fri 
+
+    // get Mon-Fri
 	for ($x = 2; $x <= 12; $x+=2) {
 		$item['day'] = $html->find('div[id="orkanen"]',0)->find('div[class="col-md-8"]',0)->find('p', $x)->plaintext;
 		$item['menu'] = $html->find('div[id="orkanen"]',0)->find('div[class="col-md-8"]',0)->find('p', $x+1)->plaintext;
 		$ret[] = $item;
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -241,7 +241,7 @@ function scraping_orkanen() {
 
 function printOut_orkanen($weekday = -1, $cli = true) {
 	$ret = scraping_orkanen();
-	
+
 	// show results on cli
 	$countDays = 0;
 	if ($cli) {
@@ -275,7 +275,7 @@ function printOut_orkanen($weekday = -1, $cli = true) {
 				echo "<div class='dishDesc'>".$v['soupAndSallad']."</div>";
 				echo "</div>";
 			}
-			echo "<div class='dayContainer'>";			
+			echo "<div class='dayContainer'>";
 			if($countDays > 0 && $countDays < 6  && $weekday == -1 || $weekday == $countDays - 1) {
 				echo "<div class='day'>".$v['day']."</div>";
 				echo "<div class='dishDesc'>".$v['menu']."</div>";
@@ -314,15 +314,15 @@ function scraping_niagara() {
 
 					$ret[] = $item;
 				}
-				
+
 				// increase the counter
 				$countDays++;
 			}
-	} 
-        
-        
-    
-    
+	}
+
+
+
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -332,7 +332,7 @@ function scraping_niagara() {
 
 function printOut_niagara($weekday = -1, $cli = true) {
 	$ret = scraping_niagara();
-	
+
 	// show results on cli
 	$countDays = 0;
 	if ($cli) {
@@ -360,7 +360,7 @@ function printOut_niagara($weekday = -1, $cli = true) {
 				if ($init != $v['day']) {
 					if ($init != -1) echo "</div>";
 					echo "<div class='day'>".$v['day']."</div>";
-					echo "<div class='dayContainer'>";					
+					echo "<div class='dayContainer'>";
 					$init = $v['day'];
 				}
 				echo "<div class='dishType'>".$v['dishCategory']."</div>";
@@ -390,15 +390,15 @@ function scraping_lillakoket() {
 				$item['menu'] = trim($daily->find('p', 0)->innertext);
 
 				$ret[] = $item;
-				
+
 				//increase counter
 				$countDays++;
 			}
-	} 
-        
-        
-    
-    
+	}
+
+
+
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -408,7 +408,7 @@ function scraping_lillakoket() {
 
 function printOut_lillakoket($weekday = -1, $cli = true) {
 	$ret = scraping_lillakoket();
-	
+
 	// show results on cli
 	$countDays = 0;
 	if ($cli) {
@@ -437,7 +437,7 @@ function printOut_lillakoket($weekday = -1, $cli = true) {
 				echo "</div>";
 			}
 		foreach($ret as $v) {
-			echo "<div class='dayContainer'>";			
+			echo "<div class='dayContainer'>";
 			if($countDays >= 0 && $countDays < 5  && $weekday == -1 || $weekday == $countDays) {
 				echo "<div class='day'>".$v['day']."</div>";
 				echo "<div class='dishDesc'>".$v['menu']."</div>";
@@ -455,15 +455,15 @@ function scraping_valfarden() {
 	// get prices
     $item['times'] = $html->find('div[class="single_inside_content"]',0)->find('h2', 0)->plaintext;
     $item['prices'] = "";
-    
-	
-    // get Mon-Fri 
+
+
+    // get Mon-Fri
 	for ($x = 4; $x <= 14; $x+=2) {
 		$item['day'] = $html->find('div[class="single_inside_content"]',0)->find('p', $x)->innertext;
 		$item['menu'] = $html->find('div[class="single_inside_content"]',0)->find('p', $x+1)->plaintext;
 		$ret[] = $item;
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -505,7 +505,7 @@ function printOut_valfarden($weekday = -1, $cli = true) {
 				echo "<div class='dishPriceLine'>".$v['prices']."</div>";
 				echo "</div>";
 			}
-			echo "<div class='dayContainer'>";			
+			echo "<div class='dayContainer'>";
 			if($countDays >= 0 && $countDays < 5  && $weekday == -1 || $weekday == $countDays) {
 				echo "<div class='dishDesc'>".$v['day']."</div>";
 				echo "<div class='dishDesc'>".$v['menu']."</div>";
@@ -525,8 +525,8 @@ function scraping_thapthim() {
     $item['prices'] = str_replace("/", ", ", trim($html->find('div[class="ParagraphContainer"]',0)->find('h1', 1)->plaintext, "&nbsp;"));
     $item['soupAndSallad'] = trim($html->find('div[class="ParagraphContainer"]',0)->find('h1', 12)->plaintext, "&nbsp;");
     $ret[] = $item;
-	
-    // get Mon-Fri 
+
+    // get Mon-Fri
     $countDays = 0;
     $x = 15;
 	while ($countDays < 5) {
@@ -543,7 +543,7 @@ function scraping_thapthim() {
 		$countDays++;
 		$x+=5;
     }
-    
+
     // clean up memory
     $html->clear();
     unset($html);
@@ -592,7 +592,7 @@ function printOut_thapthim($weekday = -1, $cli = true) {
 				echo "</div>";
 			}
 			if($countDays >= 0 && $countDays < 5  && $weekday == -1 || $weekday == $v['dayNumber']) {
-				echo "<div class='dayContainer'>";			
+				echo "<div class='dayContainer'>";
 				echo "<div class='dishDesc'>".$v['day']."</div>";
 				echo "<div class='dishType'>".$v['dishCategory_0']."</div>";
 				echo "<div class='dishDesc'>".$v['dishDesc_0']."</div>";
@@ -606,118 +606,59 @@ function printOut_thapthim($weekday = -1, $cli = true) {
 	}
 }
 
-function scraping_sture(){
-	
-	
-	    // create HTML DOM
-    $html = file_get_html('http://www.sture.me/extra/lunchmeny');
-	// get prices
-    $item['times'] = $html->find('div[class="container"]',0)->find('b', 2)->plaintext;
-	$item['price'] = $html->find('div[class="container"]',0)->find('b', 3)->plaintext;
-	$item['kaffe'] = $html->find('div[class="container"]',0)->find('b', 10)->plaintext;
-    $item['prices'] = "";
-    
-	//*[@id="content"]/div/div/b[3]
-    // get Mon-Fri 
 
-	$dayOfWeek = getDayOfWeek('CET');
-	
-	for ($x = 8; $x <= 16; $x+=2) {
-		
-		
-		
-		if($dayOfWeek==0){
-			$y = 0;
-		}
-		
-		else if($dayOfWeek==1){
-			
-			$y = 2;
-		}
-		
-		else if($dayOfWeek==2){
-			
-			$y = 4;
-		}
-		
-		else if($dayOfWeek==3){
-			
-			$y = 6;
-		}
-		
-		else if($dayOfWeek==4){
-			
-			$y = 8;
-		}
-		
-		$item['day'] = $html->find('div[class="container"]',0)->find('text', 8+$y)->innertext;
-		$item['menu'] = $html->find('div[class="container"]',0)->find('text', 9+$y)->plaintext;
-		$ret[] = $item;
-    }
-    
-    // clean up memory
-    $html->clear();
-    unset($html);
+// made by Jesper Andersson jeppe.design and Freyja Bjornsdottir bjornsdottir.com
+function scraping_fredag49(){
+  $html = file_get_html("http://www.freda49.se/lunch-malmo.html");
 
-    return $ret;
+  $item[time] = $html->find('p',3);
+  $item[price] = $html->find('p',5);
+  $ret[] = $item;
+
+  $x = 0;
+
+  while ($x < 21) {
+    $item[day] = $html->find('p',10+$x);
+    $x++;
+    $item[husman] = $html->find('p',10+$x);
+    $x++;
+    $item[halsa] = $html->find('p',10+$x);
+    $x++;
+    $item[veg] = $html->find('p',10+$x);
+    $x++;
+    $x++;
+
+    $ret[] = $item;
+  }
+
+  return $ret;
+
 }
 
-function printOut_sture($weekday = -1, $cli = true){
-	
-	$ret = scraping_sture();
+function printOut_fredag49($weekday = -1, $cli = true){
 
-	// show results on cli
-	$countDays = 0;
-	if ($cli) {
-		echo "STURE\n";
-		echo "*********\n";
-		foreach($ret as $v) {
-			if($countDays == 0) {
-				
-			
-				echo $v['times']."\n";
-				echo $v['price']."\n";
-				echo $v['prices']."\n";
-				echo "\n----------------------\n";
-				
-			}
-			if($countDays >= 0 && $countDays < 5  && $weekday == -1 || $weekday == $countDays) {
-				echo $v['day']."\n----------------------";
-				echo $v['menu'];
-				echo "\n----------------------\n";
-				echo $v['kaffe'];
-			}
-			if($countDays == 6) {
-				// nothing to do in this case
-			}
-			$countDays++;
-		}
-	} else {
-		echo "<div class='restaurantContainer'>";
-		echo "<div class='restaurantName'>STURE</div>";
-		foreach($ret as $v) {
-			if($countDays == 0) {
-				echo "<div class='priceContainer'><div class='priceListTitle'>Prices</div>";
-				echo "<div class='times'>".$v['times']."</div>";
-				echo "<div class='price'>".$v['price']."</div>";
-				echo "<div class='dishPriceLine'>".$v['prices']."</div>";
-				echo "<div class='kaffe'>".$v['kaffe']."</div>";
-				echo "</div>";
-			}
-			echo "<div class='dayContainer'>";			
-			if($countDays >= 0 && $countDays < 5  && $weekday == -1 || $weekday == $countDays) {
-				echo "<div class='dishDesc'>".$v['day']."</div>";
-				echo "<div class='dishDesc'>".$v['menu']."</div>";
-			}
-			echo "</div>";
-			$countDays++;
-		}
-		echo "</div>";
-	}
+  $ret = scraping_fredag49();
+
+  $countDays = 0;
+
+  echo "<div class='restaurantContainer'>";
+  echo "<div class='restaurantName'>FREDA49</div>";
+
+  echo "<div class='priceContainer'><div class='priceListTitle'>Prices</div>";
+  echo $ret[0]['price'];
+  echo $ret[0]['time'];
+  echo "</div>";
+
+  echo $ret[$weekday+1]['day'];
+  echo $ret[$weekday+1]['halsa'];
+  echo $ret[$weekday+1]['husman'];
+  echo $ret[$weekday+1]['veg'];
+  echo "</div>";
+
 }
 
 function printOut_noWork($cli = true) {
-	
+
 	if ($cli) {
 		echo "It's a no-food day, what if you went home to eat?";
 	} else {
@@ -725,7 +666,7 @@ function printOut_noWork($cli = true) {
 		echo "<div class='restaurantName'>GOTTA BE WEEKEND</div>";
 		echo "<div class='dayContainer'>";
 		echo "It's a no-food day, what if you went home to eat?";
-		echo "</div></div>";		
+		echo "</div></div>";
 	}
 }
 
@@ -735,7 +676,7 @@ function getDayOfWeek($pTimezone)
     $userDateTimeZone = new DateTimeZone($pTimezone);
     $UserDateTime = new DateTime("now", $userDateTimeZone);
 
-    $offsetSeconds = $UserDateTime->getOffset(); 
+    $offsetSeconds = $UserDateTime->getOffset();
     //echo $offsetSeconds;
 
     return gmdate("w", time() + $offsetSeconds) - 1;
@@ -769,8 +710,8 @@ if ($dayOfWeek > 4 || $dayOfWeek < 0) {
 	printOut_valfarden($dayOfWeek, false);
 	echo "</div><div class='column'>";
 	printOut_thapthim($dayOfWeek, false);
-	echo "</div><div class='column'>";
-	printOut_sture($dayOfWeek, false
+  	echo "</div><div class='column'>";
+  	printOut_fredag49($dayOfWeek, false);
 }
 
 echo "</div></div>";
